@@ -1,7 +1,9 @@
 {
     "name": "ETGrid",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "ETSupportKit"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
