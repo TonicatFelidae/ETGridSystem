@@ -2,7 +2,7 @@
     "name": "ETGrid",
     "rootNamespace": "",
     "references": [
-        "GUID:e0e495db36ff3d742b47dc75e794f37a"
+        "ET"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
