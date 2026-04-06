@@ -1,0 +1,16 @@
+{
+    "name": "ETGridSystemEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:87f58be25e6684412ae2dc4aa72a4663"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
