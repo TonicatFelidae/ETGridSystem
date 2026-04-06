@@ -1,9 +1,7 @@
 {
     "name": "ETGrid",
     "rootNamespace": "",
-    "references": [
-        "ET"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
