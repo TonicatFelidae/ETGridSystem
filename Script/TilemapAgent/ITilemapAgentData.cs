@@ -5,10 +5,9 @@ namespace ET.GridSystem
 {
     public interface ITilemapAgentData
     {
-        public Dictionary<Vector3Int, GTileMapData> TileData { get; set; }
-        public Dictionary<string, List<Vector3Int>> TileKeysByID { get; set; }
-        void Add(Vector3Int pos, string ID);
-        void CreateGroupKeyByID();
+        Dictionary<Vector3Int, GTileMapData> TileData { get; set; }
+        Dictionary<string, List<Vector3Int>> TileKeysByID { get; set; }
+        void ForceAdd(Vector3Int pos, string ID);
     }
     [Serializable]
     public struct GTileMapData // data to indenticate

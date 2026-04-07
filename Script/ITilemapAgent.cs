@@ -6,14 +6,20 @@ namespace ET.GridSystem
 {
     public interface ITilemapAgent
     {
+        GridLayer GridLayerID { get; }
+        GridSize GridSize { get; }
         List<Vector3Int> Keys { get; }
         Transform Transform { get; }
         SquareRange2DInt MapSize { get; }
         TilemapRenderer TilemapRenderer { get; }
         LayerRenderer LayerRenderer { get; }
+        MapExporterBase MapExporter { get; }
+        TilemapAgentData MapData { get; set; }
+        Tilemap Tilemap { get; }
+        Grid Grid { get; }
         Vector3 CellToWorld(Vector3Int cellPosition);
         void CleanAllTiles();
-        void CreateJsonFileFromMap(); void FillMapWith(List<Vector3Int> posToFill);
+        void FillMapWith(List<Vector3Int> posToFill);
         void FillMapWithDefaultMTile();
         void FillMapWithDefaultMTileGroup();
         void FillTile(Vector3Int loc, int x = 1, int y = 1);
@@ -37,6 +43,7 @@ namespace ET.GridSystem
         void SetTiles(List<Vector3Int> bodyTiles, TileBase tileBase, bool updateGeometry = false);
         void Show(bool enable);
         void UpdateGeometry();
+        void ExportMapData();
         UnityAction<Vector3Int, GTileMapData> ConstructTile { get; set; }
 
 

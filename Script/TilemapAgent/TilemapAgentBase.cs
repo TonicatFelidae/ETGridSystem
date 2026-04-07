@@ -11,14 +11,89 @@ namespace ET.GridSystem
     [RequireComponent(typeof(Tilemap))]
     public class TilemapAgentBase : MonoBehaviour, ITilemapAgent
     {
+
+        public TilemapAgentData mapData;
+        protected SquareRange2DInt _mapSize;
+        public List<Vector3Int> Keys { get; }
+
+        public TileBase defaultTile;
+        public TileGroup defaultTiles;
+
+
+
+        [Header("REFERENCES")]
+        [SerializeField] private MapExporterBase _mapExporter;
+        public MapExporterBase MapExporter { get => _mapExporter; }
+
+
+        #region Auto REFERENCES
+        public TilemapRenderer TilemapRenderer
+        {
+            get
+            {
+                if (_tilemapRenderer == null)
+                    _tilemapRenderer = GetComponent<TilemapRenderer>();
+                return _tilemapRenderer;
+            }
+
+        }
+        private TilemapRenderer _tilemapRenderer;
+
+        public LayerRenderer LayerRenderer
+        {
+            get
+            {
+                if (_layerRenderer == null)
+                    _layerRenderer = GetComponent<LayerRenderer>();
+                return _layerRenderer;
+            }
+        }
+        private LayerRenderer _layerRenderer;
+        public CompositeCollider2D CompositeCollider2D
+        {
+            get
+            {
+                if (_compositeCollider2D == null)
+                {
+                    Debug.LogWarning("[TilemapAgent] Getting CompositeCollider2D");
+                    _compositeCollider2D = GetComponent<CompositeCollider2D>();
+                }
+                return _compositeCollider2D;
+            }
+        }
+        private CompositeCollider2D _compositeCollider2D;
+        public Tilemap Tilemap
+        {
+            get
+            {
+                if (_tilemap == null)
+                    _tilemap = GetComponent<Tilemap>();
+                return _tilemap;
+            }
+        }
+        private Tilemap _tilemap;
+        public Grid Grid
+        {
+            get
+            {
+                if (_grid == null)
+                    _grid = GetComponentInParent<Grid>();
+                return _grid;
+            }
+        }
+        private Grid _grid;
+
+        #endregion
+        public GridLayer GridLayerID => mapData.gridLayerID;
+        public GridSize GridSize => mapData.gridSize;
+        public TilemapAgentData MapData { get => mapData; set => mapData = value; }
         public Transform Transform => transform;
         public SquareRange2DInt MapSize => _mapSize;
-        private SquareRange2DInt _mapSize;
-        public List<Vector3Int> Keys { get; }
+        BoundsInt Bounds => Tilemap.cellBounds;
+
         public void Show(bool enable) => gameObject.SetActive(enable);
         #region Map Builder
         public void CleanAllTiles() => Tilemap.ClearAllTiles();
-
         public void FillMapWith(List<Vector3Int> posToFill)
         {
             CleanAllTiles();
@@ -162,10 +237,10 @@ namespace ET.GridSystem
 
         public void UpdateGeometry()
         {
-            if (compositeCollider2D != null)
+            if (CompositeCollider2D != null)
             {
                 Tilemap.GetComponent<TilemapCollider2D>().ProcessTilemapChanges();
-                compositeCollider2D.GenerateGeometry();
+                CompositeCollider2D.GenerateGeometry();
             }
         }
         #endregion
@@ -174,12 +249,12 @@ namespace ET.GridSystem
         public Vector2 GetRandomPositionInRandomTile_All()
         {
             var item = mapData.TileData.RandomElement(); // posible bug is not read tileData
-            return _grid.GetCellCenterWorld(item.Key);
+            return Grid.GetCellCenterWorld(item.Key);
         }
         public Vector2 GetRandomPositionInRandomTile_ID(string tileID)
         {
             var item = mapData.TileKeysByID[tileID].RandomElement(); // posible bug is not read tileData, or not group the keys
-            return _grid.GetCellCenterWorld(item);
+            return Grid.GetCellCenterWorld(item);
         }
         /// <summary>
         /// Get index from tile group
@@ -206,62 +281,20 @@ namespace ET.GridSystem
                 TileBase tile = Tilemap.GetTile(Keys[i]);
                 if (tile is IIDItem tileIDItem)
                 {
-                    mapData.Add(Keys[i], tileIDItem.ID);
+                    mapData.ForceAdd(Keys[i], tileIDItem.ID);
                 }
             }
         }
         #endregion
         #region Support Function
-        public Vector3 CellToWorld(Vector3Int cellPosition) => _grid.CellToWorld(cellPosition);
+        public Vector3 CellToWorld(Vector3Int cellPosition) => Grid.CellToWorld(cellPosition);
         #endregion
 
 
-        public GridLayer gridLayerID;
-        private UnityEngine.Grid _grid;
-        private Tilemap Tilemap
-        {
-            get
-            {
-                if (tilemap == null)
-                    tilemap = GetComponent<Tilemap>();
-                return tilemap;
-            }
-        }
 
-        BoundsInt Bounds => Tilemap.cellBounds;
 
-        public TileBase defaultTile;
-        public TileGroup defaultTiles;
-        public ITilemapAgentData mapData;
         public bool GenerateTileNameInDebug = false;
-        public CompositeCollider2D compositeCollider2D;
-        public TilemapRenderer TilemapRenderer
-        {
-            get
-            {
-                if (_tilemapRenderer == null)
-                    _tilemapRenderer = GetComponent<TilemapRenderer>();
-                return _tilemapRenderer;
-            }
-
-        }
-        private TilemapRenderer _tilemapRenderer;
-
-        public LayerRenderer LayerRenderer
-        {
-            get
-            {
-                if (_layerRenderer == null)
-                    _layerRenderer = GetComponent<LayerRenderer>();
-                return _layerRenderer;
-            }
-
-        }
-        private LayerRenderer _layerRenderer;
         public UnityAction<Vector3Int, GTileMapData> ConstructTile { get; set; }
-
-
-        public Tilemap tilemap;
 
         /// <summary>
         /// Read map data from ATile, use for alpha ver tion only, read data ridectly from map. After saveload system ok the new flow will be:  read data ridectly from map +> save file => load file to render map
@@ -282,16 +315,10 @@ namespace ET.GridSystem
                 //TODO construct from object ID
             }
             //Profiler.EndSample();
-            //Profiler.BeginSample("CreateGroupKeyByID");
-            if (groupDataKeysByID)
-            {
-                mapData.CreateGroupKeyByID();
-            }
-            //Profiler.EndSample();
             //Profiler.BeginSample("GenerateGeometry");
             if (generateCollider)
             {
-                compositeCollider2D?.GenerateGeometry();
+                CompositeCollider2D?.GenerateGeometry();
                 //GridSPCompositeColliderShrinker.ShrinkCollider(compositeCollider2D, 0.4f);
             }
             //Profiler.EndSample();
@@ -308,7 +335,7 @@ namespace ET.GridSystem
         {
             if (generateCollider)
             {
-                compositeCollider2D?.GenerateGeometry();
+                CompositeCollider2D?.GenerateGeometry();
                 //GridSPCompositeColliderShrinker.ShrinkCollider(compositeCollider2D, 0.4f);
             }
             if (addLayerItem)
@@ -322,6 +349,11 @@ namespace ET.GridSystem
             {
                 mapData.TileData.Add(loc, new GTileMapData());
             }
+        }
+        public void ExportMapData()
+        {
+            ReadAllTileIDs();
+            MapExporter.ExportMapData(MapData);
         }
 
 #if UNITY_EDITOR
@@ -339,11 +371,6 @@ namespace ET.GridSystem
                 style.normal.textColor = Color.red;
                 UnityEditor.Handles.Label(worldPosition, $"({cellPosition.x}, {cellPosition.y})", style);
             }
-        }
-
-        public void CreateJsonFileFromMap()
-        {
-            throw new System.NotImplementedException();
         }
 
 #endif
