@@ -272,7 +272,10 @@ namespace ET.GridSystem
         public bool HaveTile(Vector3Int loc) => Tilemap.GetTile(loc);
         public GTile GetGTile(Vector3Int loc) => (GTile)Tilemap.GetTile(loc);
 
-
+        /// <summary>
+        /// THis script will get both TileBAse and try to port to Gtile when it is posible to get the objectID
+        /// 
+        /// </summary>
         public void ReadAllTileIDs()
         {
             mapData.TileData = new Dictionary<Vector3Int, GTileMapData>();

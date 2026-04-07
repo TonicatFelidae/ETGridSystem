@@ -24,8 +24,7 @@ namespace ET.GridSystem
             set { _tileKeysByID = value; }
         }
         public Dictionary<Vector3Int, GTileMapData> TileData { get => tileData; set => tileData = value; }
-
-        public void ForceAdd(Vector3Int pos, string ID) => TileData.ForceAdd(pos, new GTileMapData(ID, 0));
+        public void ForceAdd(Vector3Int pos, string ID, string objectID = null) => TileData.ForceAdd(pos, new GTileMapData(ID, objectID));
 
     }
 }
