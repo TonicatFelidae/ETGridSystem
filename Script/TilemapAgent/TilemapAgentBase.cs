@@ -278,7 +278,7 @@ namespace ET.GridSystem
         /// </summary>
         public void ReadAllTileIDs()
         {
-            mapData.TileData = new Dictionary<Vector3Int, GTileMapData>();
+            mapData.TileData = new Dictionary<Vector3Int, string>();
             for (int i = 0; i < Keys.Count; i++)
             {
                 TileBase tile = Tilemap.GetTile(Keys[i]);
@@ -297,7 +297,7 @@ namespace ET.GridSystem
 
 
         public bool GenerateTileNameInDebug = false;
-        public UnityAction<Vector3Int, GTileMapData> ConstructTile { get; set; }
+        public UnityAction<Vector3Int, string> ConstructTile { get; set; }
 
         /// <summary>
         /// Read map data from ATile, use for alpha ver tion only, read data ridectly from map. After saveload system ok the new flow will be:  read data ridectly from map +> save file => load file to render map
@@ -350,7 +350,7 @@ namespace ET.GridSystem
         {
             if (!mapData.TileData.ContainsKey(loc))
             {
-                mapData.TileData.Add(loc, new GTileMapData());
+                mapData.TileData.Add(loc, null);
             }
         }
         public void ExportMapData()

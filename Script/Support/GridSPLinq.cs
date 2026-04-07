@@ -8,10 +8,10 @@ namespace ET.GridSystem
 {
     public class GridSPLinq : MonoBehaviour
     {
-        public static Dictionary<string, List<Vector3Int>> GroupByTileDataID(Dictionary<Vector3Int, GTileMapData> tileData)
+        public static Dictionary<string, List<Vector3Int>> GroupByTileDataID(Dictionary<Vector3Int, string> tileData)
         {
             return tileData
-                .GroupBy(kv => kv.Value.ID)
+                .GroupBy(kv => kv.Value)
                 .ToDictionary(g => g.Key, g => g.Select(kv => kv.Key).ToList());
         }
 

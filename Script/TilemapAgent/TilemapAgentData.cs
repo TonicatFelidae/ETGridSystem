@@ -7,7 +7,7 @@ namespace ET.GridSystem
     [Serializable]
     public class TilemapAgentData : ITilemapAgentData
     {
-        public Dictionary<Vector3Int, GTileMapData> tileData = new(); // Immutatble 
+        public Dictionary<Vector3Int, string> tileData = new(); // Immutatble 
         public GridLayer gridLayerID;
         public GridSize gridSize;
         private Dictionary<string, List<Vector3Int>> _tileKeysByID;
@@ -23,9 +23,8 @@ namespace ET.GridSystem
             }
             set { _tileKeysByID = value; }
         }
-        public Dictionary<Vector3Int, GTileMapData> TileData { get => tileData; set => tileData = value; }
-        public void ForceAdd(Vector3Int pos, string ID, string objectID = null) => TileData.ForceAdd(pos, new GTileMapData(ID, objectID));
-
+        public Dictionary<Vector3Int, string> TileData { get => tileData; set => tileData = value; }
+        public void ForceAdd(Vector3Int pos, string ID) => TileData.ForceAdd(pos, ID);
     }
 }
 

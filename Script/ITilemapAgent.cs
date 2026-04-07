@@ -44,7 +44,7 @@ namespace ET.GridSystem
         void Show(bool enable);
         void UpdateGeometry();
         void ExportMapData();
-        UnityAction<Vector3Int, GTileMapData> ConstructTile { get; set; }
+        UnityAction<Vector3Int, string> ConstructTile { get; set; }
 
 
     }
