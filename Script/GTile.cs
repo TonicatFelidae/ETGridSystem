@@ -7,7 +7,7 @@ namespace ET.GridSystem
     /// <summary>
     /// Use to draw the map, as ID of building
     /// </summary>
-    [CreateAssetMenu(fileName = "MTile", menuName = "Game/Tiles/MTile")]
+    [CreateAssetMenu(fileName = "GTile", menuName = "ET/Tiles/GTile")]
     public class GTile : Tile, IIDItem
     {
         [Space]

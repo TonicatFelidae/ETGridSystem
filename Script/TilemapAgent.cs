@@ -6,6 +6,9 @@ using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 namespace ET.GridSystem
 {
+
+    [RequireComponent(typeof(TilemapRenderer))]
+    [RequireComponent(typeof(Tilemap))]
     public class TilemapAgentBase : MonoBehaviour, ITilemapAgent
     {
         public Transform Transform => transform;
@@ -236,28 +239,26 @@ namespace ET.GridSystem
         {
             get
             {
-                if (tilemapRenderer == null)
-                    tilemapRenderer = GetComponent<TilemapRenderer>();
-                return tilemapRenderer;
+                if (_tilemapRenderer == null)
+                    _tilemapRenderer = GetComponent<TilemapRenderer>();
+                return _tilemapRenderer;
             }
 
         }
-        public TilemapRenderer tilemapRenderer;
+        private TilemapRenderer _tilemapRenderer;
 
         public LayerRenderer LayerRenderer
         {
             get
             {
-                if (layerRenderer == null)
-                    layerRenderer = GetComponent<LayerRenderer>();
-                return layerRenderer;
+                if (_layerRenderer == null)
+                    _layerRenderer = GetComponent<LayerRenderer>();
+                return _layerRenderer;
             }
 
         }
-
+        private LayerRenderer _layerRenderer;
         public UnityAction<Vector3Int, GTileMapData> ConstructTile { get; set; }
-
-        public LayerRenderer layerRenderer;
 
 
         public Tilemap tilemap;
