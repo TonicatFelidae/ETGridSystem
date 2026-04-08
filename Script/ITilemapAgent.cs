@@ -14,6 +14,7 @@ namespace ET.GridSystem
         TilemapRenderer TilemapRenderer { get; }
         LayerRenderer LayerRenderer { get; }
         MapDataMapper MapExporter { get; }
+        MapDataPalette MapDataPalette { get; }
         TilemapAgentData MapData { get; set; }
         Tilemap Tilemap { get; }
         Grid Grid { get; }

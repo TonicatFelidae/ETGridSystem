@@ -6,6 +6,12 @@ using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 namespace ET.GridSystem
 {
+    /// <summary>
+    /// Tilemap agent use to:
+    /// - An invidual controller for each tilemap, to read and write tile data, and export map data to map exporter
+    /// - A bridge between tilemap and layer system, to add layer item to layer system
+    /// - Draw tile data in editor, to help designer to build map
+    /// </summary>
 
     [RequireComponent(typeof(TilemapRenderer))]
     [RequireComponent(typeof(Tilemap))]
@@ -40,6 +46,8 @@ namespace ET.GridSystem
         [Header("REFERENCES")]
         [SerializeField] private MapDataMapper _mapExporter;
         public MapDataMapper MapExporter { get => _mapExporter; }
+        [SerializeField] private MapDataPalette _mapDataPalette;
+        public MapDataPalette MapDataPalette => _mapDataPalette;
 
 
         #region Auto REFERENCES
@@ -384,6 +392,9 @@ namespace ET.GridSystem
             ReadAllTileIDs();
             MapExporter.ExportMapData(MapData);
         }
+        #region Drawer
+
+        #endregion
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()

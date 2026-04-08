@@ -13,11 +13,11 @@ namespace ET.GridSystem
     /// - get tile by ID
     /// - get tile random with setting
     /// </summary>
-    [CreateAssetMenu(fileName = "TileGroup", menuName = "Game/Tiles/TileGroup")]
-    public class TileGroup<T> : ScriptableObject where T : TileBase
+    [CreateAssetMenu(fileName = "TileGroup", menuName = "ET/Tiles/TileGroup")]
+    public class TileGroup : ScriptableObject
     {
-        [SerializeField] private SimpleChanceGroup<T> _tiles;
-        public SimpleChanceGroup<T> Tiles
+        [SerializeField] private SimpleChanceGroup<TileBase> _tiles;
+        public SimpleChanceGroup<TileBase> Tiles
         {
             get
             {
@@ -25,15 +25,15 @@ namespace ET.GridSystem
             }
         }
         private Dictionary<Vector3Int, int> _indexMap = new(); // cache for added tile
-        public T GetTile()
+        public TileBase GetTile()
         {
             return Tiles.Get(0);
         }
-        public T GetTile(int order)
+        public TileBase GetTile(int order)
         {
             return Tiles.Get(order);
         }
-        public T GetRandomTile()
+        public TileBase GetRandomTile()
         {
             return Tiles.GetRandom();
         }
@@ -49,7 +49,7 @@ namespace ET.GridSystem
         }
         public struct TileGroupTilebase
         {
-            public T tileBase;
+            public TileBase tileBase;
 
 
         }
