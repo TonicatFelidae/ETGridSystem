@@ -13,7 +13,7 @@ namespace ET.GridSystem
         SquareRange2DInt MapSize { get; }
         TilemapRenderer TilemapRenderer { get; }
         LayerRenderer LayerRenderer { get; }
-        MapExporterBase MapExporter { get; }
+        MapDataMapper MapExporter { get; }
         TilemapAgentData MapData { get; set; }
         Tilemap Tilemap { get; }
         Grid Grid { get; }

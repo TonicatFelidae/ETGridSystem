@@ -11,7 +11,6 @@ namespace ET.GridSystem
     [RequireComponent(typeof(Tilemap))]
     public class TilemapAgentBase : MonoBehaviour, ITilemapAgent
     {
-
         public TilemapAgentData mapData;
         protected SquareRange2DInt _mapSize;
         public List<Vector3Int> Keys { get; }
@@ -22,8 +21,8 @@ namespace ET.GridSystem
 
 
         [Header("REFERENCES")]
-        [SerializeField] private MapExporterBase _mapExporter;
-        public MapExporterBase MapExporter { get => _mapExporter; }
+        [SerializeField] private MapDataMapper _mapExporter;
+        public MapDataMapper MapExporter { get => _mapExporter; }
 
 
         #region Auto REFERENCES
@@ -62,6 +61,16 @@ namespace ET.GridSystem
             }
         }
         private CompositeCollider2D _compositeCollider2D;
+        public TilemapDrawer TilemapDrawer
+        {
+            get
+            {
+                if (_tilemapDrawer == null)
+                    _tilemapDrawer = GetComponent<TilemapDrawer>();
+                return _tilemapDrawer;
+            }
+        }
+        private TilemapDrawer _tilemapDrawer;
         public Tilemap Tilemap
         {
             get

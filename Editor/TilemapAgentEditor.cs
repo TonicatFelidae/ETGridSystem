@@ -62,6 +62,15 @@ public class TilemapAgentEditor : Editor
         }
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Space(10);
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("DrawTilemap", GUILayout.MaxWidth(250)))
+        {
+            myScript.TilemapDrawer.DrawTilemap();
+        }
+        GUILayout.FlexibleSpace();
+        EditorGUILayout.EndHorizontal();
 
         GUILayout.Space(5);
 
