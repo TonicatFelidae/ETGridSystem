@@ -13,7 +13,24 @@ namespace ET.GridSystem
     {
         public TilemapAgentData mapData;
         protected SquareRange2DInt _mapSize;
-        public List<Vector3Int> Keys { get; }
+        private List<Vector3Int> _keys;
+        public List<Vector3Int> Keys
+        {
+            get
+            {
+                if (_keys == null || _keys.Count == 0)
+                {
+                    _keys = new List<Vector3Int>();
+                    foreach (var pos in Bounds.allPositionsWithin)
+                    {
+                        if (Tilemap.HasTile(pos))
+                            _keys.Add(pos);
+                    }
+                }
+                return _keys;
+            }
+            set => _keys = value;
+        }
 
         public TileBase defaultTile;
         public TileGroup defaultTiles;

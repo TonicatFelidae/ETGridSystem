@@ -62,12 +62,20 @@ public class TilemapAgentEditor : Editor
         }
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
-        EditorGUILayout.Space(10);
+
+        EditorGUILayout.Space(12);
+        EditorGUILayout.LabelField("── Editor Tools ──", EditorStyles.boldLabel);
+        EditorGUILayout.Space(4);
+
         EditorGUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("DrawTilemap", GUILayout.MaxWidth(250)))
+        if (GUILayout.Button("Draw From Data", GUILayout.MaxWidth(250)))
         {
             myScript.TilemapDrawer.DrawTilemap();
+        }
+        if (GUILayout.Button("Export Data", GUILayout.MaxWidth(250)))
+        {
+            myScript.ExportMapData();
         }
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
