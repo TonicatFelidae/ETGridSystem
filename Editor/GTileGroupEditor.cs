@@ -19,6 +19,10 @@ namespace ET.GridSystem
                     "Assets",
                     "Select GTile Folder"
                 );
+                if (_folderPicker.IsValidAssetFolder)
+                {
+                    _foundTiles = _folderPicker.LoadAll<GTile>();
+                }
             }
         }
 
@@ -42,9 +46,18 @@ namespace ET.GridSystem
                 _foundTiles = _folderPicker.LoadAll<GTile>();
             }
 
-            if (_folderPicker.IsValidAssetFolder && GUILayout.Button("Find All GTiles"))
+            if (_folderPicker.IsValidAssetFolder)
             {
-                _foundTiles = _folderPicker.LoadAll<GTile>();
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("Find All GTiles"))
+                {
+                    _foundTiles = _folderPicker.LoadAll<GTile>();
+                }
+                if (_foundTiles != null && GUILayout.Button("Refresh"))
+                {
+                    _foundTiles = _folderPicker.LoadAll<GTile>();
+                }
+                EditorGUILayout.EndHorizontal();
             }
 
             if (_foundTiles != null && _foundTiles.Length > 0)

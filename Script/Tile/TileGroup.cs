@@ -25,6 +25,7 @@ namespace ET.GridSystem
             }
         }
         private Dictionary<Vector3Int, int> _indexMap = new(); // cache for added tile
+        //public List<T> TileList => _tiles.Elements;
         public T GetTile()
         {
             return Tiles.Get(0);

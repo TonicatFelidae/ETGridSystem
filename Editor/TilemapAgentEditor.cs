@@ -31,7 +31,7 @@ public class TilemapAgentEditor : Editor
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("FillMapWithDefaultGTile", GUILayout.MaxWidth(250)))
         {
-            myScript.FillMapWithDefaultMTile();
+            myScript.FillMapWithDefaultGTile();
         }
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
@@ -40,7 +40,7 @@ public class TilemapAgentEditor : Editor
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("FillMapWithDefaultGTileGroup", GUILayout.MaxWidth(250)))
         {
-            myScript.FillMapWithDefaultMTileGroup();
+            myScript.FillMapWithDefaultGTileGroup();
         }
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
@@ -71,7 +71,7 @@ public class TilemapAgentEditor : Editor
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("Draw From Data", GUILayout.MaxWidth(250)))
         {
-            myScript.TilemapDrawer.DrawTilemap();
+            myScript.DrawTilemap();
         }
         if (GUILayout.Button("Export Data", GUILayout.MaxWidth(250)))
         {

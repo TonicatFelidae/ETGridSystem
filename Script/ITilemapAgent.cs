@@ -14,15 +14,14 @@ namespace ET.GridSystem
         TilemapRenderer TilemapRenderer { get; }
         LayerRenderer LayerRenderer { get; }
         MapDataMapper MapExporter { get; }
-        MapDataPalette MapDataPalette { get; }
         TilemapAgentData MapData { get; set; }
         Tilemap Tilemap { get; }
         Grid Grid { get; }
         Vector3 CellToWorld(Vector3Int cellPosition);
         void CleanAllTiles();
         void FillMapWith(List<Vector3Int> posToFill);
-        void FillMapWithDefaultMTile();
-        void FillMapWithDefaultMTileGroup();
+        void FillMapWithDefaultGTile();
+        void FillMapWithDefaultGTileGroup();
         void FillTile(Vector3Int loc, int x = 1, int y = 1);
         void FillTile(Vector3Int loc, int index, int x, int y);
         GTile GetGTile(Vector3Int loc);
@@ -45,7 +44,6 @@ namespace ET.GridSystem
         void Show(bool enable);
         void UpdateGeometry();
         void ExportMapData();
-        UnityAction<Vector3Int, string> ConstructTile { get; set; }
 
 
     }
