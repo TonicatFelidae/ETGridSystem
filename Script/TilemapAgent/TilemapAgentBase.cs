@@ -39,7 +39,7 @@ namespace ET.GridSystem
         }
 
         public TileBase defaultTile;
-        public TileGroup defaultTiles;
+        public TileGroup<TileBase> defaultTiles;
 
 
 

@@ -2,7 +2,8 @@
     "name": "ETGridSystemEditor",
     "rootNamespace": "",
     "references": [
-        "ETGrid"
+        "ETGrid",
+        "ETSupportKitEditor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

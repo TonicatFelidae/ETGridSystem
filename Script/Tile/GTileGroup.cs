@@ -1,7 +1,9 @@
 using UnityEngine;
 namespace ET.GridSystem
 {
-    public class GTileGroup
+
+    [CreateAssetMenu(fileName = "GTileGroup", menuName = "ET/Tiles/GTileGroup")]
+    public class GTileGroup : TileGroup<GTile>
     {
 
     }
