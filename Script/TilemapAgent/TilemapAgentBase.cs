@@ -19,28 +19,23 @@ namespace ET.GridSystem
     {
         public TilemapAgentData mapData;
         protected SquareRange2DInt _mapSize;
-        private List<Vector3Int> _keys;
         public List<Vector3Int> Keys
         {
             get
             {
-                if (_keys == null || _keys.Count == 0)
+                var ret = new List<Vector3Int>();
+                foreach (var pos in Bounds.allPositionsWithin)
                 {
-                    _keys = new List<Vector3Int>();
-                    foreach (var pos in Bounds.allPositionsWithin)
-                    {
-                        if (Tilemap.HasTile(pos))
-                            _keys.Add(pos);
-                    }
+                    if (Tilemap.HasTile(pos))
+                        ret.Add(pos);
                 }
-                return _keys;
+                return ret;
             }
-            set => _keys = value;
         }
         [Header("TILE PALETTES")]
         [SerializeField] private TilePalette _tilePalette;
         public TileBase DefaultTileBase => _tilePalette.defaultTileBase;
-        public TileGroup<TileBase> DefaultTileBases => _tilePalette.defaultTileBases;
+        public TileGroup<TileBase> DefaultTileBaseGroup => _tilePalette.defaultTileBases;
         public TileGroup<GTile> DefaultGTiles => _tilePalette.defaultGTiles;
         [Header("REFERENCES")]
         [SerializeField] private MapDataMapper _mapExporter;
@@ -114,16 +109,20 @@ namespace ET.GridSystem
 
         public void Show(bool enable) => gameObject.SetActive(enable);
         #region Map Builder
-        public void CleanAllTiles() => Tilemap.ClearAllTiles();
+        public void CleanAllTiles()
+        {
+            Tilemap.ClearAllTiles();
+            Debug.Log("[TilemapAgent] CleanAllTiles complete");
+        }
         public void FillMapWith(List<Vector3Int> posToFill)
         {
             CleanAllTiles();
             foreach (var item in posToFill)
             {
-                Tilemap.SetTile(item, DefaultTileBases.GetTile());
+                Tilemap.SetTile(item, DefaultTileBaseGroup.GetTile());
             }
         }
-        public void FillMapWithDefaultGTile()
+        public void FillMapWithDefaultTileBase()
         {
             if (DefaultTileBase == null)
             {
@@ -139,10 +138,11 @@ namespace ET.GridSystem
                     Tilemap.SetTile(pos.ToVector3Int(), DefaultTileBase);
                 }
             }
+            Debug.Log("[TilemapAgent] FillMapWithDefaultTileBase complete");
         }
-        public void FillMapWithDefaultGTileGroup()
+        public void FillMapWithDefaultTileBaseGroup()
         {
-            if (DefaultTileBase == null)
+            if (DefaultTileBaseGroup == null)
             {
                 Debug.LogError("[TilemapAgent] defaultTiles not set");
                 return;
@@ -153,9 +153,10 @@ namespace ET.GridSystem
                 for (int j = MapSize.minY; j < MapSize.maxY; j++)
                 {
                     Vector2Int pos = new Vector2Int(i, j);
-                    Tilemap.SetTile(pos.ToVector3Int(), DefaultTileBases.GetTile());
+                    Tilemap.SetTile(pos.ToVector3Int(), DefaultTileBaseGroup.GetTile());
                 }
             }
+            Debug.Log("[TilemapAgent] FillMapWithDefaultTileBaseGroup complete");
         }
 
         /// <summary>
@@ -171,7 +172,7 @@ namespace ET.GridSystem
                 for (int j = 0; j < y; j++)
                 {
                     Vector3Int curLoc = new Vector3Int(loc.x + i, j + loc.y);
-                    Tilemap.SetTile(curLoc, DefaultTileBases.GetTile());
+                    Tilemap.SetTile(curLoc, DefaultTileBaseGroup.GetTile());
                 }
             }
         }
@@ -189,8 +190,8 @@ namespace ET.GridSystem
                 for (int j = 0; j < y; j++)
                 {
                     Vector3Int curLoc = new Vector3Int(loc.x + i, j + loc.y);
-                    Tilemap.SetTile(curLoc, DefaultTileBases.GetTile(index));
-                    DefaultTileBases.SetIndexAt(curLoc, index);
+                    Tilemap.SetTile(curLoc, DefaultTileBaseGroup.GetTile(index));
+                    DefaultTileBaseGroup.SetIndexAt(curLoc, index);
                     CheckAndAddTileData(curLoc);
                 }
             }
@@ -207,6 +208,7 @@ namespace ET.GridSystem
                         GameObject go = Tilemap.GetInstantiatedObject(pos.ToVector3Int());
                     }
                 }
+                Debug.Log("[TilemapAgent] LogBuildMap complete");
             }
             else
             {
@@ -217,7 +219,7 @@ namespace ET.GridSystem
         #region Tile Builder
 
         public void SetTile(Vector3Int loc) => SetTile(loc, DefaultTileBase);
-        public void SetTile(Vector3Int loc, int index) => SetTile(loc, DefaultTileBases.GetTile(index));
+        public void SetTile(Vector3Int loc, int index) => SetTile(loc, DefaultTileBaseGroup.GetTile(index));
         public void SetTile(Vector3Int loc, TileBase tileBase, int rotationAngle = 0)
         {
             Tilemap.SetTile(loc, null);
@@ -230,7 +232,7 @@ namespace ET.GridSystem
         }
 
         public void SetTiles(List<Vector3Int> bodyTiles) => SetTiles(bodyTiles, DefaultTileBase);
-        public void SetTiles(List<Vector3Int> bodyTiles, int index) => SetTiles(bodyTiles, DefaultTileBases.GetTile(index));
+        public void SetTiles(List<Vector3Int> bodyTiles, int index) => SetTiles(bodyTiles, DefaultTileBaseGroup.GetTile(index));
         public void SetTiles(List<Vector3Int> bodyTiles, TileBase tileBase, bool updateGeometry = false)
         {
             foreach (var loc in bodyTiles)
@@ -283,10 +285,10 @@ namespace ET.GridSystem
         /// <param name="loc"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public int GetTileIndex(Vector3Int loc) => DefaultTileBases.GetIndexAt(loc);
+        public int GetTileIndex(Vector3Int loc) => DefaultTileBaseGroup.GetIndexAt(loc);
         public bool HaveDefaultTile(Vector3Int loc)
         {
-            if (Tilemap.GetTile(loc) && Tilemap.GetTile(loc) == DefaultTileBases.GetTile()) return true;
+            if (Tilemap.GetTile(loc) && Tilemap.GetTile(loc) == DefaultTileBaseGroup.GetTile()) return true;
             return false;
         }
 
@@ -308,6 +310,8 @@ namespace ET.GridSystem
                     mapData.ForceAdd(Keys[i], tileIDItem.ID);
                 }
             }
+            Debug.Log($"[TilemapAgent] ReadAllTileIDs complete. Total tiles read: {Keys}, Total IIDItem: {mapData.Count}");
+
         }
         #endregion
         #region Support Function
@@ -378,6 +382,7 @@ namespace ET.GridSystem
         {
             ReadAllTileIDs();
             MapExporter.ExportMapData(MapData);
+            Debug.Log("[TilemapAgent] ExportMapData complete");
         }
         #region Drawer
         public void DrawTilemap()
@@ -418,6 +423,7 @@ namespace ET.GridSystem
                     Debug.LogWarning($"[TilemapDrawer] Tile ID not found: {tileID}");
                 }
             }
+            Debug.Log("[TilemapDrawer] Tilemap drawn successfully.");
         }
 
         #endregion

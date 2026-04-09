@@ -20,8 +20,8 @@ namespace ET.GridSystem
         Vector3 CellToWorld(Vector3Int cellPosition);
         void CleanAllTiles();
         void FillMapWith(List<Vector3Int> posToFill);
-        void FillMapWithDefaultGTile();
-        void FillMapWithDefaultGTileGroup();
+        void FillMapWithDefaultTileBase();
+        void FillMapWithDefaultTileBaseGroup();
         void FillTile(Vector3Int loc, int x = 1, int y = 1);
         void FillTile(Vector3Int loc, int index, int x, int y);
         GTile GetGTile(Vector3Int loc);

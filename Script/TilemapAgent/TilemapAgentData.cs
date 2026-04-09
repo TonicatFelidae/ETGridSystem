@@ -8,6 +8,7 @@ namespace ET.GridSystem
     public class TilemapAgentData : ITilemapAgentData
     {
         public Dictionary<Vector3Int, string> tileData = new(); // Immutatble 
+        public int Count => tileData.Count;
         public GridLayer gridLayerID;
         public GridSize gridSize;
         private Dictionary<string, List<Vector3Int>> _tileKeysByID;

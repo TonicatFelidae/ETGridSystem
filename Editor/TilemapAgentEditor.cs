@@ -15,37 +15,10 @@ public class TilemapAgentEditor : Editor
         TilemapAgentBase myScript = (TilemapAgentBase)target;
         GUILayout.Space(5);
 
-        //
-        EditorGUILayout.Space(10);
-        EditorGUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        if (GUILayout.Button("CleanAllObjects", GUILayout.MaxWidth(250)))
-        {
-            myScript.CleanAllTiles();
-        }
-        GUILayout.FlexibleSpace();
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.Space(10);
-        EditorGUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        if (GUILayout.Button("FillMapWithDefaultGTile", GUILayout.MaxWidth(250)))
-        {
-            myScript.FillMapWithDefaultGTile();
-        }
-        GUILayout.FlexibleSpace();
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.Space(10);
-        EditorGUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
-        if (GUILayout.Button("FillMapWithDefaultGTileGroup", GUILayout.MaxWidth(250)))
-        {
-            myScript.FillMapWithDefaultGTileGroup();
-        }
-        GUILayout.FlexibleSpace();
-        EditorGUILayout.EndHorizontal();
-        //
-        EditorGUILayout.Space(10);
+        //---------------------------------------------------------------------------
+        EditorGUILayout.LabelField("── Runtime tool ──", EditorStyles.boldLabel);
+        EditorGUILayout.Space(4);
+        //----------------------------------------------------------------------------
         EditorGUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("LogBuildMap", GUILayout.MaxWidth(250)))
@@ -56,17 +29,34 @@ public class TilemapAgentEditor : Editor
         {
             myScript.ReadAllTileIDs();
         }
-        if (GUILayout.Button("Export Map Data", GUILayout.MaxWidth(250)))
-        {
-            myScript.ExportMapData();
-        }
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
 
-        EditorGUILayout.Space(12);
-        EditorGUILayout.LabelField("── Editor Tools ──", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("── Map Builder Tools ──", EditorStyles.boldLabel);
         EditorGUILayout.Space(4);
-
+        //----------------------------------------------------------------------------
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("CleanAllObjects", GUILayout.MaxWidth(250)))
+        {
+            myScript.CleanAllTiles();
+        }
+        GUILayout.FlexibleSpace();
+        EditorGUILayout.EndHorizontal();
+        //----------------------------------------------------------------------------
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("FillMapWithDefaultGTile", GUILayout.MaxWidth(250)))
+        {
+            myScript.FillMapWithDefaultTileBase();
+        }
+        if (GUILayout.Button("FillMapWithDefaultGTileGroup", GUILayout.MaxWidth(250)))
+        {
+            myScript.FillMapWithDefaultTileBaseGroup();
+        }
+        GUILayout.FlexibleSpace();
+        EditorGUILayout.EndHorizontal();
+        //----------------------------------------------------------------------------
         EditorGUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("Draw From Data", GUILayout.MaxWidth(250)))
