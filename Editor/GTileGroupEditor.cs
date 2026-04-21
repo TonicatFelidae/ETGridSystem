@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using ETEditor;
@@ -81,3 +82,4 @@ namespace ET.GridSystem
         }
     }
 }
+#endif
